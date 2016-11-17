@@ -10,6 +10,7 @@ import input from './components/input';
 import Page from './components/pageination';
 import Switch from './components/switch';
 import table from './components/table';
+import notification from './components/notification';
 
 import './assets/font-awesome.min.css';
 
@@ -23,3 +24,4 @@ Vue.component(input.name, input);
 Vue.component(Page.name, Page);
 Vue.component(Switch.name, Switch);
 Vue.component(table.name, table);
+Vue.component(notification.name, notification);

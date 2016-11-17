@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import kDialog from './components/dialog';
-const kDialogBus = new Vue();
+import kNotification from './components/notification';
+const kBus = new Vue();
 //dialog
 exports.showDialog = (data) => {
   const _dialog = document.querySelectorAll('.k-dialog-wrap');
@@ -15,7 +16,7 @@ exports.showDialog = (data) => {
         }
       },
       created () {
-        kDialogBus.$on('kdialog', (data) => {
+        kBus.$on('kdialog', (data) => {
           if (data) {
             this.$data.dialogData = data;
           }
@@ -30,6 +31,37 @@ exports.showDialog = (data) => {
     const _kdialog = new kdialog().$mount();
     document.querySelectorAll('body')[0].appendChild(_kdialog.$el);
   }else {
-    kDialogBus.$emit('kdialog', data);
+    kBus.$emit('kdialog', data);
+  }
+};
+exports.showNotification = (data) => {
+  const _notification = document.querySelectorAll('.k-notification-wrap');
+  if (_notification.length === 0) {
+    const knotification = Vue.component('knotification', {
+      components: {
+        'k-notification': kNotification
+      },
+      data () {
+        return {
+          notificationData: data
+        }
+      },
+      created () {
+        kBus.$on('knotification', (data) => {
+          if (data) {
+            this.$data.notificationData = data;
+          }
+        });
+      },
+      render (h) {
+        return (
+          <k-notification set={this._data.notificationData}></k-notification>
+        )
+      }
+    });
+    const _knotification = new knotification().$mount();
+    document.querySelectorAll('body')[0].appendChild(_knotification.$el);
+  }else {
+    kBus.$emit('knotification', data);
   }
 };
