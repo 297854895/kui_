@@ -34,7 +34,7 @@ exports.showDialog = (data) => {
     kBus.$emit('kdialog', data);
   }
 };
-exports.showNotification = (data) => {
+exports.Notification = (data) => {
   const _notification = document.querySelectorAll('.k-notification-wrap');
   if (_notification.length === 0) {
     const knotification = Vue.component('knotification', {
@@ -47,10 +47,11 @@ exports.showNotification = (data) => {
         }
       },
       created () {
-        kBus.$on('knotification', (data) => {
-          if (data) {
-            this.$data.notificationData = data;
-          }
+        kBus.$on('knotification-add', (data) => {
+          console.log('add');
+        });
+        kBus.$on('knotification-remove', (data) => {
+          console.log('remove');
         });
       },
       render (h) {
@@ -62,6 +63,14 @@ exports.showNotification = (data) => {
     const _knotification = new knotification().$mount();
     document.querySelectorAll('body')[0].appendChild(_knotification.$el);
   }else {
-    kBus.$emit('knotification', data);
+    switch (data.type) {
+      case 'add':
+        kBus.$emit('knotification-add', data.data);
+        break;
+      case 'remove':
+        kBus.$emit('knotification-remove', data.data);
+        break;
+      default:
+    }
   }
 };
