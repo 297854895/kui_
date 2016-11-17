@@ -169,7 +169,7 @@
   }
   thead th{
     text-align: left;
-    padding: 8px 8px;
+    padding: 12px 8px;
     color: #fff;
     background: #4db3ff;
   }
