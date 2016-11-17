@@ -93,7 +93,7 @@
 </script>
 <style scoped>
   .k-button{
-    display: inline-block;;
+    display: inline-block;
     vertical-align: top;
     border-radius: 4px;
     cursor: pointer;
@@ -108,7 +108,7 @@
     outline: none;
     -moz-user-select: none;
     -webkit-user-select: none;
-    -ms-user-select: none;person_identity
+    -ms-user-select: none;
     padding: 6px 12px;
     font-size: 14px;
     margin: 0 4px;

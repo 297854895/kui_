@@ -35,42 +35,32 @@ exports.showDialog = (data) => {
   }
 };
 exports.Notification = (data) => {
-  const _notification = document.querySelectorAll('.k-notification-wrap');
-  if (_notification.length === 0) {
-    const knotification = Vue.component('knotification', {
-      components: {
-        'k-notification': kNotification
-      },
-      data () {
-        return {
-          notificationData: data
-        }
-      },
-      created () {
-        kBus.$on('knotification-add', (data) => {
-          console.log('add');
-        });
-        kBus.$on('knotification-remove', (data) => {
-          console.log('remove');
-        });
-      },
-      render (h) {
-        return (
-          <k-notification set={this._data.notificationData}></k-notification>
-        )
+  const knotification = Vue.component('knotification', {
+    components: {
+      'k-notification': kNotification
+    },
+    data () {
+      return {
+        notificationData: []
       }
-    });
-    const _knotification = new knotification().$mount();
-    document.querySelectorAll('body')[0].appendChild(_knotification.$el);
-  }else {
-    switch (data.type) {
-      case 'add':
-        kBus.$emit('knotification-add', data.data);
-        break;
-      case 'remove':
-        kBus.$emit('knotification-remove', data.data);
-        break;
-      default:
+    },
+    created () {
+      kBus.$on('knotification-add', (data) => {
+        this.$data.notificationData.push(data);
+      });
+      kBus.$on('knotification-remove', (data) => {
+        console.log('remove');
+      });
+    },
+    mounted () {
+      kBus.$emit('knotification-add', data.data);
+    },
+    render (h) {
+      return (
+        <k-notification set={this._data.notificationData}></k-notification>
+      )
     }
-  }
+  });
+  const _knotification = new knotification().$mount();
+  document.querySelectorAll('body')[0].appendChild(_knotification.$el);
 };
