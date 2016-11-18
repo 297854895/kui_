@@ -1,7 +1,9 @@
 <template>
-    <div class="k-notification-wrap" @click="show = !show">
+    <div>
       <transition name="fade">
-        <span v-if="show">123456</span>
+        <div class="k-notification" v-show="show">
+          <slot></slot>
+        </div>
       </transition>
     </div>
 </template>
@@ -9,32 +11,46 @@
   export default{
     name: 'k-notification',
     props: ['set'],
+    mounted () {
+      this.show = true;
+    },
     data () {
       const data = this.set ? this.set[0] : [];
       return {
         data: data,
-        show: true
+        show: false
       }
     }
   }
 </script>
 <style scoped>
-  .k-notification-wrap{
-    position: fixed;
-    top: 0px;
+  div {
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   -o-box-sizing: border-box;
+   -ms-box-sizing: border-box;
+   box-sizing: border-box;
+  }
+  .k-notification{
+    position: relative;
+    font-size: 14px;
     margin-top: 16px;
-    right: 0;
-    z-index: 99999;
-    width: 300px;
-    height: 80px;
-    background: #000;
-    color: #fff;
-    opacity: 1;
+    width: 360px;
+    height: auto;
+    border-radius: 3px;
+    border: 1px solid #c0ccda;
+    right: 0px;
+    padding: 16px 20px 16px 10px;
+    color: #666;
+    transition: all .3s
   }
   .fade-enter-active, .fade-leave-active{
-    transition: all .3s;
+    transition: all .3s ease-in-out;
   }
-  .fade-enter, .fade-leave-active{
+  .fade-enter{
     opacity: 0;
+    height: 0;
+    width: 0;
+    right: -360px;
   }
 </style>

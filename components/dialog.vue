@@ -142,6 +142,11 @@
     height: initial;
     top: initial;
     background: initial;
+    -moz-box-sizing: border-box;
+     -webkit-box-sizing: border-box;
+     -o-box-sizing: border-box;
+     -ms-box-sizing: border-box;
+     box-sizing: border-box;
   }
   @keyframes dialogIn {
     0%{

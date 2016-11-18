@@ -136,6 +136,13 @@
   }
 </script>
 <style scoped>
+  div{
+    -moz-box-sizing: border-box;
+     -webkit-box-sizing: border-box;
+     -o-box-sizing: border-box;
+     -ms-box-sizing: border-box;
+     box-sizing: border-box;
+  }
   .k-check-box {
     display: inline-block;
     font-size: 14px;
@@ -174,8 +181,8 @@
   .k-check-box a{
     display: block;
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     top: 0;
     bottom: 0;
     left: 0;
@@ -194,8 +201,6 @@
     color: #fff;
     font-size: 12px;
     position: absolute;
-    left: 1px;
-    top: 1px;
     transition: all .3s;
     transform: scale(0);
   }

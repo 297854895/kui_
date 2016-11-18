@@ -13,6 +13,7 @@ import table from './components/table';
 import notification from './components/notification';
 
 import './assets/font-awesome.min.css';
+import './assets/kui.css';
 
 Vue.component(button.name, button);
 Vue.component(alert.name, alert);

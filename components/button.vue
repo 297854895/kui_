@@ -92,6 +92,13 @@
   }
 </script>
 <style scoped>
+  div{
+    -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   -o-box-sizing: border-box;
+   -ms-box-sizing: border-box;
+   box-sizing: border-box;
+  }
   .k-button{
     display: inline-block;
     vertical-align: top;

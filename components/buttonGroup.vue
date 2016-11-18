@@ -32,12 +32,20 @@
   }
 </script>
 <style scoped>
+  div{
+    -moz-box-sizing: border-box;
+     -webkit-box-sizing: border-box;
+     -o-box-sizing: border-box;
+     -ms-box-sizing: border-box;
+     box-sizing: border-box;
+  }
   .k-button-group .k-drop-down{
     margin: 0;
   }
   .k-button-group {
     display: inline-block;
     border-radius: 4px;
+    height: 30px;
   }
   .k-button-group  div:last-child:hover{
     border-right: none;
