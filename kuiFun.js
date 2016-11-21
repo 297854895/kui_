@@ -42,18 +42,28 @@ exports.Notification = (data) => {
         'k-notification': kNotification
       },
       methods: {
-        show () {
-          console.log(123);
+        remove (id) {
+          this.$data.notificationData.forEach((data, index) => {
+            if (data.notificationID === id) {
+              this.$data.notificationData.splice(index, 1);
+              this.$data.timer.forEach((data, _index) => {
+                if(data[id.toString()]) {
+                  clearTimeout(data[id.toString()]);
+                  this.$data.timer.splice(_index, 1);
+                }
+              });
+            }
+          });
         }
       },
       template: `<div class="k-notification-wrap">
-                    <k-notification v-for="each in notificationData">
+                    <k-notification v-for="each in notificationData" :kBus="kBus" :autoClose="each.autoClose" :nID="each.notificationID">
                       <div class="k-notification-left">
-                        <i class="fa fa-search" @click="show"></i>
+                        <i class="fa fa-search"></i>
                       </div><div class="k-notification-right">
                         <h3 class="k-notification-title">
-                        <span>{{each.title ? each.title : ''}}</span>
-                        <i class="fa fa-close"></i>
+                          <span>{{each.title ? each.title : ''}}</span>
+                          <i class="fa fa-close" @click="remove(each.notificationID)"></i>
                         </h3>
                         <p>{{each.content ? each.content : ''}}</p>
                       </div>
@@ -61,32 +71,46 @@ exports.Notification = (data) => {
                  </div>`,
       data () {
         return {
-          notificationData: []
+          notificationData: [],
+          kBus: kBus,
+          notificationID: 0,
+          autoRemoveID: [],
+          timer: []
         }
       },
       created () {
         kBus.$on('knotification-add', (data) => {
-          this.$data.notificationData.push(data);
+          this.$data.notificationData.push({...data, notificationID: this._data.notificationID});
+          if (data.autoClose) {
+            this.$data.autoRemoveID.push(this.$data.notificationID);
+          }
+          this.$data.notificationID += 1;
         });
         kBus.$on('knotification-remove', (data) => {
-          console.log('remove');
+          switch (data) {
+            case 'auto':
+              this.$data.notificationData.forEach((data, index)=>{
+                if (data.notificationID === this.$data.autoRemoveID[0]) {
+                  this.$data.notificationData.splice(index ,1);
+                  this.$data.autoRemoveID.shift();
+                }
+              });
+              break;
+            default:
+              console.log(data);
+          }
+        });
+        kBus.$on('knotification-timer', (data) => {
+          this.$data.timer.push(data);
         });
       },
       mounted () {
-        kBus.$emit('knotification-add', data.data);
+        kBus.$emit('knotification-add', data);
       }
     });
     const _knotification = new knotification().$mount();
     document.querySelectorAll('body')[0].appendChild(_knotification.$el);
   }else {
-    switch (data.type) {
-      case 'add':
-        kBus.$emit('knotification-add', data.data);
-        break;
-      case 'remove':
-        kBus.$emit('knotification-remove', data.data);
-        break;
-      default:
-    }
+    kBus.$emit('knotification-add', data);
   }
 };

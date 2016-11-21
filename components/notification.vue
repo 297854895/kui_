@@ -10,14 +10,24 @@
 <script>
   export default{
     name: 'k-notification',
-    props: ['set'],
+    props: ['kBus', 'autoClose', 'nID'],
     mounted () {
       this.show = true;
+      if (!this.autoClose) return;
+      const timer = setTimeout(()=>{
+        this.show = false;
+        setTimeout(() => {
+          if (this.kBus) {
+            this.kBus.$emit('knotification-remove', 'auto');
+          }
+        },355);
+      },5000);
+      let _timer = {};
+      _timer[this.nID.toString()] = timer;
+      this.kBus.$emit('knotification-timer', _timer);
     },
     data () {
-      const data = this.set ? this.set[0] : [];
       return {
-        data: data,
         show: false
       }
     }
@@ -42,15 +52,24 @@
     right: 0px;
     padding: 16px 20px 16px 10px;
     color: #666;
-    transition: all .3s
+    overflow: hidden;
   }
-  .fade-enter-active, .fade-leave-active{
-    transition: all .3s ease-in-out;
+  .fade-enter-active{
+    transition: all .3s ease-in;
+  }
+  .fade-leave-active{
+    transition: all .35s;
   }
   .fade-enter{
     opacity: 0;
     height: 0;
-    width: 0;
+    right: -360px;
+  }
+  .fade-leave-active{
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    border: none;
     right: -360px;
   }
 </style>
