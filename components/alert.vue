@@ -20,10 +20,10 @@
         _set.type = 'default';
       }
       switch (_set.type) {
-        case 'primary':
-          _set._thisClass += ' primary';
-          _set._iconClass += ' fa-search';
-          break;
+        // case 'primary':
+        //   _set._thisClass += ' primary';
+        //   _set._iconClass += ' fa-search';
+        //   break;
         case 'success':
           _set._thisClass += ' success';
           _set._iconClass += ' fa-check-circle';

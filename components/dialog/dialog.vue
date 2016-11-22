@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-  import kButton from './button';
+  import kButton from '../button';
   let _setNone = false;
   let _setUpdate = false;
   export default {
