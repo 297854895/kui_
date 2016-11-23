@@ -34,6 +34,11 @@
         default:
           _set._thisClass += ' default';
       }
+      if (_set.icon) {
+        if (!_set.icon.type) {
+          _set.icon.type = 'before';
+        }
+      }
       return {
         _set: _set
       }
