@@ -1,8 +1,4 @@
-// import install from './install';//安装组件
 import Vue from 'vue';
-
-import Dialog from './components/dialog/index.js';
-import Notification from './components/notification/index.js';
 
 import button from './components/button';
 import alert from './components/alert';
@@ -14,6 +10,9 @@ import input from './components/input';
 import Page from './components/pageination';
 import Switch from './components/switch';
 import table from './components/table';
+
+import Notification from './components/notification/index.js';
+import Dialog from './components/dialog/index.js';
 
 import './assets/font-awesome.min.css';
 import './assets/kui.css';

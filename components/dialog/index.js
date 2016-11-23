@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import kDialog from './dialog';
 const kBus = new Vue();
+
 var Dialog = (data) => {
   const _dialog = document.querySelectorAll('.k-dialog-wrap');
   if (_dialog.length === 0) {
