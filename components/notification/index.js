@@ -30,3 +30,4 @@ export default Notification = (data) => {
     _notification[0].appendChild(_notifications.$el);
   }
 };
+console.log(Notification);
