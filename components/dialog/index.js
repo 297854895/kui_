@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import kDialog from './dialog';
 const kBus = new Vue();
-
-export default Dialog = (data) => {
+var Dialog = (data) => {
   const _dialog = document.querySelectorAll('.k-dialog-wrap');
   if (_dialog.length === 0) {
     const kdialog = Vue.component('kdialog', {
@@ -33,3 +32,4 @@ export default Dialog = (data) => {
     kBus.$emit('kdialog', data);
   }
 };
+export default Dialog;
