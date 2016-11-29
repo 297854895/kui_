@@ -43,7 +43,7 @@
           defaultTitle = '成功';
           break;
         case 'error':
-          notification += ' fa-window-close';
+          notification += ' fa-times-circle';
           defaultTitle = '错误';
           break;
         case 'info':
@@ -69,11 +69,11 @@
 </script>
 <style scoped>
   div {
-   -moz-box-sizing: border-box;
-   -webkit-box-sizing: border-box;
-   -o-box-sizing: border-box;
-   -ms-box-sizing: border-box;
-   box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     -webkit-box-sizing: border-box;
+     -o-box-sizing: border-box;
+     -ms-box-sizing: border-box;
+     box-sizing: border-box;
   }
   .k-notification{
     position: relative;

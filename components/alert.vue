@@ -30,7 +30,7 @@
           break;
         case 'danger':
           _set._thisClass += ' danger';
-          _set._iconClass += ' fa-window-close';
+          _set._iconClass += ' fa-times-circle';
           break;
         case 'info':
           _set._thisClass += ' info';

@@ -3,6 +3,7 @@
   import kPage from './pageination';
   import kButton from './button';
   import kSwitch from './switch';
+  import kIcon from './icon';
   const kTableBus = new Vue();
   export default {
     name: 'k-table',
@@ -10,7 +11,8 @@
     components: {
       'k-switch': kSwitch,
       'k-button': kButton,
-      'k-page': kPage
+      'k-page': kPage,
+      'k-icon': kIcon,
     },
     mounted () {
       this.$on(`update-table-${this._uid}`, (data) => {
@@ -19,6 +21,42 @@
         }
         this.updateTable(data);
       });
+      this.$on(`sort-table-${this._uid}`, (data) => {
+        const _showData = this._data.SHOWDATA;
+        var len=_showData.length, tmp;
+        if (data.sortType === 'asc') {
+          for(var i=0;i<len-1;i++){
+            for(var j=0;j<len-1-i;j++){
+              if(_showData[j][data.dataIndex]>_showData[j+1][data.dataIndex]){
+                tmp = _showData[j];
+                _showData[j] = _showData[j+1];
+                _showData[j+1] = tmp;
+              }
+            }
+          }
+        }else {
+          for(var i=0;i<len-1;i++){
+            for(var j=0;j<len-1-i;j++){
+              if(_showData[j][data.dataIndex]<_showData[j+1][data.dataIndex]){
+                tmp = _showData[j];
+                _showData[j] = _showData[j+1];
+                _showData[j+1] = tmp;
+              }
+            }
+          }
+        }
+        this._data.SHOWDATA = _showData;
+        this.$forceUpdate();
+      });
+      setTimeout(()=>{
+        const sortArr = document.querySelectorAll('.k-table-sort div');
+        sortArr.forEach((sort)=>{
+          sort.onclick = (evt) => {
+            const dataIndex = evt.target.parentNode.parentNode.getAttribute('index');
+            this.sortData(evt, dataIndex);
+          }
+        });
+      },10)
     },
     methods: {
       turn (page) {
@@ -42,6 +80,10 @@
           this.$data.TableData = this.$data.TableData.concat(data.data);
           this.$data.TableOptions.current = data.page;
         }
+      },
+      sortData (evt, dataIndex) {
+        const sortType = evt.target.getAttribute('sort');
+        this.$emit(`sort-table-${this._uid}`, {sortType, dataIndex});
       }
     },
     computed: {
@@ -49,7 +91,7 @@
         let Size = this._data.TableOptions.size;
         let Current = this._data.TableOptions.current;
         if (!Size) {
-          Current = 1;
+          Size = 1;
         }
         if (!Current) {
           Current = 1;
@@ -95,7 +137,7 @@
       let Size = this._data.TableOptions.size;
       let Current = this._data.TableOptions.Current;
       if (!Size) {
-        Current = 1;
+        Size = 10;
       }
       if (!Current) {
         Current = 1;
@@ -106,7 +148,25 @@
       const _headArr = [];
       if (this._data.TableHead) {
         for (let head_ of this._data.TableHead) {
-          _head.children.push(<th index={head_.dataIndex}>{head_.title}</th>);
+          if (head_.sort) {
+            if (_showDATA[0][head_.dataIndex]){
+              if (typeof(_showDATA[0][head_.dataIndex]) === 'string' || typeof(_showDATA[0][head_.dataIndex]) === 'number' ){
+                _head.children.push(
+                  <th index={head_.dataIndex}>
+                  {head_.title}
+                  <div class="k-table-sort">
+                    <div class="k-table-sort-asc" title="升序" sort="asc"></div>
+                    <div class="k-table-sort-desc" title="倒序" sort="desc"></div>
+                  </div>
+                  </th>);
+              }
+            }
+          }else {
+            _head.children.push(
+              <th index={head_.dataIndex}>
+                {head_.title}
+              </th>);
+          }
           _headArr.push(head_.dataIndex);
         }
       }
@@ -185,5 +245,33 @@
   }
   tbody tr:hover {
     background: #DDF1FF;
+  }
+  .k-table-sort{
+    margin-left: 10px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 10px;
+    height: 16px;
+  }
+  .k-table-sort-asc{
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 6px solid #fff;
+    position: absolute;
+    top: 1px;
+    cursor: pointer;
+  }
+  .k-table-sort-desc{
+    cursor: pointer;
+    position: absolute;
+    bottom: 1px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid #fff;
   }
 </style>

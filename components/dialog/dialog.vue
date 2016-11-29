@@ -1,5 +1,6 @@
 <template>
   <div class="k-mask-dialog k-dialog-wrap" v-show="this._data._set._showStatus">
+    <div class="k-mask-dialog-bk"></div>
     <transition name="dialog">
       <div class="k-dialog-container">
         <h1>
@@ -214,9 +215,15 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.65);
     text-align: center;
     z-index: 99;
+  }
+  .k-mask-dialog-bk{
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    background: rgba(0, 0, 0, 0.75);
+    top: 0
   }
   .k-dialog-container{
     top: 35px;
