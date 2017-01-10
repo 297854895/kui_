@@ -1,0 +1,22 @@
+{
+  "name": "kui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/297854895/kui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/297854895/kui/issues"
+  },
+  "homepage": "https://github.com/297854895/kui#readme",
+  "dependencies": {
+    "moment": "^2.17.1"
+  }
+}

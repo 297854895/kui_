@@ -1,33 +1,53 @@
 import Vue from 'vue';
+import kuiCss from './assets/kui.css';
+import fontAwesome from './assets/font-awesome.min.css';
 
-import button from './components/button';
-import alert from './components/alert';
-import buttonGroup from './components/buttonGroup';
-import checkBox from './components/checkBox';
-import dropDown from './components/dropDown';
-import icon from './components/icon';
-import input from './components/input';
-import Page from './components/pageination';
-import Switch from './components/switch';
-import table from './components/table';
+import Alert from './components/Alert/Alert';
+import Animate from './components/Animate/Animate';
+import Button from './components/Button/Button';
+import ButtonGroup from './components/ButtonGroup/ButtonGroup';
+import BreadCrumb from './components/BreadCrumb/BreadCrumb';
+import BackTop from './components/BackTop/BackTop';
+import Col from './components/Col/Col';
+import DatePicker from './components/DatePicker/DatePicker';
+import DropDown from './components/DropDown/DropDown';
+import Menu from './components/Menu/Menu';
+import Nav from './components/Nav/Nav';
+import Pageination from './components/Pageination/Pageination';
+import Progress from './components/Progress/Progress';
+import Row from './components/Row/Row';
+import Switch from './components/Switch/Switch';
+import Select from './components/Select/Select';
+import Table from './components/Table/Table';
+import Tabs from './components/Tabs/Tabs';
+import Input from './components/Input/Input';
 
-import Notification from './components/notification/index.js';
-import Dialog from './components/dialog/index.js';
+import Notification from './components/Notification/index.js';
+import Dialog from './components/Dialog/index.js';
+import Message from './components/Message/index.js';
 
-import './assets/font-awesome.min.css';
-import './assets/kui.css';
-
-Vue.component(button.name, button);
-Vue.component(alert.name, alert);
-Vue.component(buttonGroup.name, buttonGroup);
-Vue.component(checkBox.name, checkBox);
-Vue.component(dropDown.name, dropDown);
-Vue.component(input.name, input);
-Vue.component(Page.name, Page);
+Vue.component(Alert.name, Alert);
+Vue.component(Animate.name, Animate);
+Vue.component(BackTop.name, BackTop);
+Vue.component(Button.name, Button);
+Vue.component(ButtonGroup.name, ButtonGroup);
+Vue.component(BreadCrumb.name, BreadCrumb);
+Vue.component(Col.name, Col);
+Vue.component(DatePicker.name, DatePicker);
+Vue.component(DropDown.name, DropDown);
+Vue.component(Menu.name, Menu);
+Vue.component(Nav.name, Nav);
+Vue.component(Progress.name, Progress);
+Vue.component(Pageination.name, Pageination);
+Vue.component(Row.name, Row);
 Vue.component(Switch.name, Switch);
-Vue.component(table.name, table);
+Vue.component(Select.name, Select);
+Vue.component(Table.name, Table);
+Vue.component(Tabs.name, Tabs);
+Vue.component(Input.name, Input);
 
-module.exports = {
-  Dialog,
+Vue.prototype.$Kui = {
   Notification,
+  Dialog,
+  Message
 }
