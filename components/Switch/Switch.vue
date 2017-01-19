@@ -1,5 +1,5 @@
 <template>
-  <div :class="this.$data._enable ? 'k k-switch k-switch-default k-switch-enable' : 'k k-switch k-switch-default k-switch-disable'" @click.stop="_toggle">
+  <div :class="`k k-switch k-switch-default k-switch-${this.$data._enable ? 'enable' : 'disable'} k-switch-status-${status === 'disable' ? 'disable' : 'normal'}`" @click.stop="_toggle">
     <a class="k-switch-default" ref="circle"></a>
   </div>
 </template>

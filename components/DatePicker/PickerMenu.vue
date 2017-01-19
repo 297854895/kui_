@@ -166,7 +166,7 @@
       </div>
       <div class="k k-datepicker-picker-bottom">
         <div :style="this.$options.accurate !== 'HHMMSS' ? (this.$options.dateLength === 10 || this.$options.dateLength === 19 ? 'width: 50%' : 'width: 16%') : (this.$options.dateLength === 10 || this.$options.dateLength === 19 ? 'width: 33.3333333%' : 'width: 20%')">
-          <k-button type="info" size="mini" :callBack="()=>{show = !show;}">确认</k-button>
+          <k-button type="info" size="mini" :callBack="enter">确认</k-button>
         </div>
         <div v-if="this.$options.accurate === 'HHMMSS'" :style="this.$options.dateLength === 10 || this.$options.dateLength === 19 ? 'width: 33.3333333%' : 'width: 16%'">
           <k-button type="text" size="mini" :callBack="timePicker">{{timeShow ? '日期': '时间'}}</k-button>
@@ -219,6 +219,9 @@
       }
     },
     methods: {
+      enter() {
+        this.$data.show = !this.$data.show;
+      },
       toDouble(time) {
         return time.toString().length === 2 ? time : '0' + time;
       },

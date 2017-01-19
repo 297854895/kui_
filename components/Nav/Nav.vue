@@ -1,12 +1,12 @@
 <template>
-  <div :class="`k k-nav k-nav-${this.$data._type === 'dark' ? 'dark' : 'default'} k-nav-${position === 'fixed-bottom' || position === 'normal' ? position : 'fixed-top'}`" :style="`border-color:${this.$data._navBorderColor};background-color:${this.$data._backgroundColor}`">
+  <div ref="nav" :class="`k k-nav k-nav-${this.$data._type === 'dark' ? 'dark' : 'default'} k-nav-${position === 'fixed-bottom' || position === 'normal' ? position : 'fixed-top'}`" :style="`border-color:${this.$data._navBorderColor};background-color:${this.$data._backgroundColor}`">
     <div class="k k-nav-container">
       <span class="k-nav-left" :style="`border-color:${this.$data._navHoverColor};color:${this.$data._navHoverColor}`">
-        <div :style="`height:0px;background-color:${this.$data._navHoverBgColor};border-color:${this.$data._type === 'dark' ? this.$data._navBorderColor : 'inherit'}`">
+        <div @click="navClick" :style="`height:0px;background-color:${this.$data._navHoverBgColor};border-color:${this.$data._type === 'dark' ? this.$data._navBorderColor : 'inherit'}`">
           <slot name="left"></slot>
         </div>
       </span><span class="k-nav-right" :style="`border-color:${this.$data._navHoverColor};color:${this.$data._navHoverColor}`">
-        <div :style="`height:0px;background-color:${this.$data._navHoverBgColor};border-color:${this.$data._type === 'dark' ? this.$data._navBorderColor : 'inherit'}`">
+        <div @click="navClick" :style="`height:0px;background-color:${this.$data._navHoverBgColor};border-color:${this.$data._type === 'dark' ? this.$data._navBorderColor : 'inherit'}`">
           <slot name="right"></slot>
         </div>
       </span>
@@ -88,6 +88,16 @@
             this.$data._backgroundColor = this.$data._defaultStyle._backgroundColor;
           }
         }
+      }
+    },
+    methods: {
+      navClick(evt) {
+        if (evt.target.nodeName !== 'LI' && evt.target.parentNode.nodeName !== 'UL') return;
+        const class_ = evt.target.className;
+        if (!class_) {} else if (class_.indexOf('k-nav-current') !== -1) return;
+        const currentNav = this.$refs.nav.querySelectorAll('.k-nav-current')[0];
+        currentNav.className = currentNav.className.replace('k-nav-current', '');
+        evt.target.className = class_ + ' k-nav-current';
       }
     }
   }

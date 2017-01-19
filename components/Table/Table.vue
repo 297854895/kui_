@@ -5,26 +5,45 @@
   import kSwitch from '../Switch/Switch';
   export default {
     name: 'k-table',
-    props: ['head', 'data', 'options'],
+    props: {
+      head: {
+        type: Array,
+        default: () => {
+          return [];
+        }
+      },
+      data: {
+        type: Array,
+        default: () => {
+          return [];
+        }
+      },
+      options: {
+        type: Object,
+        default: () => {
+          return {};
+        }
+      }
+    },
     components: {
       'k-switch': kSwitch,
       'k-button': kButton,
       'k-page': kPage
     },
     mounted () {
-      this.$on(`update-table-${this._uid}`, (data) => {
+      this.$on(`k-update-table-${this._uid}`, (data) => {
         if (!data) {
           return;
         }
         this.updateTable(data);
       });
-      this.$on(`sort-table-${this._uid}`, (data) => {
+      this.$on(`k-sort-table-${this._uid}`, (data) => {
         const _showData = this._data.SHOWDATA;
         var len=_showData.length, tmp;
         if (data.sortType === 'asc') {
           for(var i=0;i<len-1;i++){
             for(var j=0;j<len-1-i;j++){
-              if(_showData[j][data.dataIndex]>_showData[j+1][data.dataIndex]){
+              if(this.compareData(_showData[j][data.dataIndex], _showData[j+1][data.dataIndex])){
                 tmp = _showData[j];
                 _showData[j] = _showData[j+1];
                 _showData[j+1] = tmp;
@@ -34,7 +53,7 @@
         }else {
           for(var i=0;i<len-1;i++){
             for(var j=0;j<len-1-i;j++){
-              if(_showData[j][data.dataIndex]<_showData[j+1][data.dataIndex]){
+              if(this.compareData(_showData[j+1][data.dataIndex], _showData[j][data.dataIndex])){
                 tmp = _showData[j];
                 _showData[j] = _showData[j+1];
                 _showData[j+1] = tmp;
@@ -46,31 +65,32 @@
         this.$forceUpdate();
       });
       setTimeout(()=>{
-        const sortArr = document.querySelectorAll('.k-table-sort div');
-        sortArr.forEach((sort)=>{
-          sort.onclick = (evt) => {
+        const sortArr = this.$refs.table.querySelectorAll('.k-table-sort div');
+        if (sortArr.length === 0 && !sortArr) return;
+        for (let each of sortArr) {
+          each.onclick = (evt) => {
             const dataIndex = evt.target.parentNode.parentNode.getAttribute('index');
             this.sortData(evt, dataIndex);
           }
-        });
-      },10)
+        }
+      },10);
     },
     methods: {
       turn (page) {
         if (this.options) {
-          if (this.options.turn) {
+          if (this.options.togglePage) {
             const current = this.$data.TableOptions.current;
             const size = this.$data.TableOptions.size;
             if ( page * size < this.$data.TableData.length  || this.$data.TableData.length - ((page - 1) * size) > 0) {
               this.$data.TableOptions.current = page;
             }else {
-              this.options.turn(page, this.callFun);
+              this.options.togglePage(page, this.callFun);
             }
           }
         }
       },
       callFun (page, data) {
-        this.$emit(`update-table-${this._uid}`, {page: page, data: data})
+        this.$emit(`k-update-table-${this._uid}`, {page: page, data: data})
       },
       updateTable (data) {
         if (data) {
@@ -80,10 +100,19 @@
       },
       sortData (evt, dataIndex) {
         const sortType = evt.target.getAttribute('sort');
-        this.$emit(`sort-table-${this._uid}`, {sortType, dataIndex});
+        this.$emit(`k-sort-table-${this._uid}`, {sortType, dataIndex});
       },
-      test () {
-        console.log(123);
+      compareData(data1, data2) {
+        if (typeof(data1) === 'number') {
+          if (data1 > data2) {
+            return true;
+          }
+        }else if (typeof(data1) === 'string') {
+          if (data1.length > data2.length) {
+            return true;
+          }
+        }
+        return false;
       }
     },
     computed: {
@@ -115,9 +144,9 @@
     },
     data () {
       return {
-        TableHead: this.head ? this.head : [],
-        TableData: this.data ? this.data : [],
-        TableOptions: this.options ? this.options : {},
+        TableHead: this.head,
+        TableData: this.data,
+        TableOptions: this.options,
         SHOWDATA: []
       }
     },
@@ -139,12 +168,12 @@
           const sortBtn = [];
           if (head_.sort) {
             sortBtn.push(<div class="k-table-sort">
-                            <div class="k-table-sort-asc" title="升序" sort="asc" click={this.test}></div>
-                            <div class="k-table-sort-desc" title="倒序" sort="desc" click={this.test}></div>
+                            <div class="k-table-sort-asc" title="升序" sort="asc" style={`border-bottom: 6px solid ${this.$data.TableOptions.headColor ? this.$data.TableOptions.headColor : '#eee'}`}></div>
+                            <div class="k-table-sort-desc" title="倒序" sort="desc" style={`border-top: 6px solid ${this.$data.TableOptions.headColor ? this.$data.TableOptions.headColor : '#eee'}`}></div>
                          </div>);
           }
           _head.children.push(
-            <th index={head_.dataIndex}>
+            <th index={head_.dataIndex} style={`background: ${this.$data.TableOptions.headBgColor ? this.$data.TableOptions.headBgColor : '#4db3ff'}; color: ${this.$data.TableOptions.headColor ? this.$data.TableOptions.headColor : '#eee'}`}>
               {head_.text ? head_.text : ''}
               {sortBtn}
             </th>);
@@ -184,7 +213,7 @@
         _body.children.push(<td colspan={_headArr.length ? _headArr.length : 0} class="k k-table k-table-no-data"><p>暂无数据</p></td>);
       }
       return (
-        <div class="k k-table">
+        <div class="k k-table" ref="table">
           <table class="default">
             <thead>
               {_head}
