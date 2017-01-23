@@ -539,6 +539,10 @@ ul,li{
   position: relative;
   border-radius: 4px;
   width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
 .k-alert-close{
@@ -605,6 +609,10 @@ ul,li{
   overflow: hidden;
   -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.2);
   box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
 .k-notification-wrap{
@@ -1843,4 +1851,83 @@ ul,li{
 }
 .k-tree-node-cursor{
   cursor: pointer;
+}
+/*card*/
+.k-card{
+  padding: 20px;
+  background: #fff;
+}
+.k-card-boxshadow{
+  -webkit-box-shadow: 0 2px 12px rgba(0,0,0,.175);
+  box-shadow: 0 2px 12px rgba(0,0,0,.175);
+}
+.k-card-border{
+  border: 1px solid #ddd;
+}
+/*picView*/
+
+/*textEditor*/
+.k-textEditor{
+  display: block;
+  width: 100%;
+  border: 1px solid #ddd;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #fff;
+}
+.k-textEditor-pane{
+  width: inherit;
+  position: relative;
+  padding: 6px 6px 3px 6px;
+  border-bottom: 1px solid #ddd;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.k-textEditor-hidePaneBt{
+  padding: 3px 21px 3px 8px;
+  position: relative;
+}
+.k-textEditor-hidePaneBt-active{
+  background: #e0e0e0;
+}
+.k-textEditor-hidePaneBt:hover .k-textEditor-hidePaneBt-i{
+  border-left: 1px solid #20a0ff;
+}
+.k-textEditor-hidePaneBt:active .k-textEditor-hidePaneBt-i{
+  border-left: 1px solid #3879D9;
+}
+.k-textEditor-hidePaneBt-active .k-textEditor-hidePaneBt-i{
+  background: #fff;
+}
+.k-textEditor-hidePaneBt-i{
+  width: 12px;
+  height: 22px;
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  border-left: 1px solid #ccc;
+  position: absolute;
+}
+.k-textEditor-hidePaneBt-i:hover{
+  border-left: 1px solid #20a0ff;
+}
+.k-textEditor-hidePaneBt-i:active{
+  border-left: 1px solid #3879D9;
+}
+.k-textEditor-iframe{
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+}
+.k-textEditor-footer{
+  border-top: 1px solid #ddd;
+  height: 24px;
 }

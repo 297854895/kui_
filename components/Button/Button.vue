@@ -8,14 +8,14 @@
     name: 'k-button',
     props: ['type', 'size', 'radius', 'width', 'status', 'iconBefore', 'iconAfter', 'callBack', 'set'],
     methods: {
-      _clickCallBack(evt) {
+      _clickCallBack() {
         if (this.status === 'disable') return;
         if (this.callBack && typeof this.callBack === 'function') {
-          this.callBack(evt);
+          this.callBack();
         }
         if (this.set) {
           if (this.set.callBack && typeof this.set.callBack === 'function') {
-            this.set.callBack(evt);
+            this.set.callBack();
           }
         }
       }
