@@ -7,6 +7,10 @@ ul,li{
   margin: 0;
   list-style: none;
 }
+button::-moz-focus-inner {
+  border:0;
+  padding:0;
+}
 .k-absolute-menu{
   position: absolute;
   z-index: 1;
@@ -175,7 +179,7 @@ ul,li{
   padding: 0;
   margin: 0;
   cursor: pointer;
-  transition: all .2s ease;
+  transition: border-color .2s ease, color .2s ease;
 }
 .k-button:hover{
   z-index: 99;
@@ -1881,7 +1885,7 @@ ul,li{
 .k-textEditor-pane{
   width: inherit;
   position: relative;
-  padding: 6px 6px 3px 6px;
+  padding: 6px;
   border-bottom: 1px solid #ddd;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -1889,36 +1893,25 @@ ul,li{
   -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
-.k-textEditor-hidePaneBt{
-  padding: 3px 21px 3px 8px;
-  position: relative;
-}
-.k-textEditor-hidePaneBt-active{
+.k-textEditor-bt-active{
   background: #e0e0e0;
 }
-.k-textEditor-hidePaneBt:hover .k-textEditor-hidePaneBt-i{
-  border-left: 1px solid #20a0ff;
+.k-textEditor-pane-bt{
+  padding: 0px;
 }
-.k-textEditor-hidePaneBt:active .k-textEditor-hidePaneBt-i{
-  border-left: 1px solid #3879D9;
-}
-.k-textEditor-hidePaneBt-active .k-textEditor-hidePaneBt-i{
-  background: #fff;
-}
-.k-textEditor-hidePaneBt-i{
-  width: 12px;
+.k-textEditor-pane-btin{
   height: 22px;
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  border-left: 1px solid #ccc;
-  position: absolute;
+  display: block;
+  padding: 0 8px;
 }
-.k-textEditor-hidePaneBt-i:hover{
-  border-left: 1px solid #20a0ff;
+.k-textEditor-bt:hover{
+  color: #666;
+  background: #eee;
+  border-color: #ccc;
 }
-.k-textEditor-hidePaneBt-i:active{
-  border-left: 1px solid #3879D9;
+.k-textEditor-bt:active{
+  color: #333;
+  background: #e0e0e0;
 }
 .k-textEditor-iframe{
   display: block;
