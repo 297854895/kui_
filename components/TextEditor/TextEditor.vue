@@ -22,7 +22,14 @@
     data() {
       return {
         styleNodeMap: {
-          B: 'Bold'
+          B: 'Bold',
+          I: 'Italic',
+          STRIKE: 'StrikeThrough'
+        },
+        styleMap: {
+          'font-weight: bold': 'Bold',
+          'font-style: italic': 'Italic',
+          'text-decoration: line-through': 'StrikeThrough'
         },
         ifrHeight: this.height,
         EditorTemplate: `<html>
@@ -73,21 +80,48 @@
         // doc.body.onselect = this.currentStyle;
         // doc.onkeydown = this.insertP;
       },
-      recursionNode(node, direction) {
-        if (!node.children || node.children.length <= 0) return;
-      },
-      currentStyle(evt) {
-        const Node = evt.target;
-        if (Node.tagName === 'BODY') return;
-        if (Node.tagName === 'P') {
-          console.log(Node.lastChild.tagName);
-          return;
-        }
-        for (let key in this.$data.styleNodeMap) {
-          if (Node.tagName === key) {
-            console.log(key);
+      innerStyle(style, tagArr) {
+        const curStyle = [];
+        const styleArr = style.split('; ');
+        const styleArrLength = styleArr.length;
+        let styleArrLength_ = 0;
+        for (let key in this.$data.styleMap) {
+          if (styleArrLength_ === styleArrLength) break;
+          if (style.indexOf(key) > -1) {
+            tagArr.push(this.$data.styleMap[key]);
+            styleArrLength_ ++;
           }
         }
+      },
+      emitStylePaneStat(tagArr) {
+        this.$children[0].$emit(`k-textEditor-pane-toggle-${this.$children[0]._uid}`, tagArr.length > 0 ? tagArr : null);
+      },
+      recursionNode(node, tagArr) {
+        const tagName = node.tagName;
+        if (node.style.cssText) {
+          this.innerStyle(node.style.cssText, tagArr);
+        }
+        tagArr.unshift(this.$data.styleNodeMap[tagName]);
+        if (node.parentNode.tagName === 'P') {
+          this.emitStylePaneStat(tagArr);
+          return;
+        }
+        this.recursionNode(node.parentNode.parentNode.lastChild, tagArr);
+      },
+      currentStyle() {
+        const doc = this.$refs.textEditor.contentDocument || this.$refs.textEditor.contentWindow.document;
+        const selection = doc.getSelection();
+        const anchorNode = selection.anchorNode;
+
+        const Node = anchorNode.parentNode.tagName === 'P' ? anchorNode : anchorNode.parentNode;
+        const tagName = anchorNode.parentNode.tagName === 'P' ? 'NORMAL' : anchorNode.parentNode.tagName;
+        const tagArr = [];
+        
+        if (tagName === 'NORMAL') {
+          this.emitStylePaneStat(tagArr);
+          return;
+        }
+        this.recursionNode(Node, tagArr);
       },
       insertP(evt) {
         if (evt.which === 13) {

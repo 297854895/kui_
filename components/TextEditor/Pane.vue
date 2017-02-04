@@ -21,143 +21,167 @@
     components: {
       'k-button-group': kButtonGroup
     },
+    props: {
+      defaultOptions: {
+        type: Object,
+        default: () => {
+          return {
+            Redo: {
+              icon: 'fa-rotate-left',
+              kind: 'button',
+              stat: false
+            },
+            Undo: {
+              icon: 'fa-rotate-right',
+              kind: 'button',
+              stat: false
+            },
+            ForeColor: {
+              icon: 'fa-font',
+              kind: 'pane',
+              stat: false
+            },
+            Bold: {
+              icon: 'fa-bold',
+              kind: 'button',
+              stat: false
+            },
+            Italic: {
+              icon: 'fa-italic',
+              kind: 'button',
+              stat: false
+            },
+            Header: {
+              icon: 'fa-header',
+              kind: 'button',
+              stat: false
+            },
+            StrikeThrough: {
+              icon: 'fa-strikethrough',
+              kind: 'button',
+              stat: false
+            },
+            Underline: {
+              icon: 'fa-underline',
+              kind: 'button',
+              stat: false
+            },
+            Subscript: {
+              icon: 'fa-subscript',
+              kind: 'button',
+              stat: false
+            },
+            Superscript: {
+              icon: 'fa-superscript',
+              kind: 'button',
+              stat: false
+            },
+            Indent: {
+              icon: 'fa-indent',
+              kind: 'button',
+              stat: false
+            },
+            Outdent: {
+              icon: 'fa-outdent',
+              kind: 'button',
+              stat: false
+            },
+            JustifyLeft: {
+              icon: 'fa-align-left',
+              kind: 'button',
+              stat: false
+            },
+            JustifyRight: {
+              icon: 'fa-align-right',
+              kind: 'button',
+              stat: false
+            },
+            JustifyCenter: {
+              icon: 'fa-align-center',
+              kind: 'button',
+              stat: false
+            },
+            JustifyFull: {
+              icon: 'fa-align-justify',
+              kind: 'button',
+              stat: false
+            },
+            Paste: {
+              icon: 'fa-paste',
+              kind: 'button',
+              stat: false
+            },
+            Copy: {
+              icon: 'fa-copy',
+              kind: 'button',
+              stat: false
+            },
+            Cut: {
+              icon: 'fa-cut',
+              kind: 'button',
+              stat: false
+            },
+            Save: {
+              icon: 'fa-save',
+              kind: 'button',
+              stat: false
+            },
+            InsertOrderedList: {
+              icon: 'fa-list-ol',
+              kind: 'button',
+              stat: false
+            },
+            InsertUnorderedList: {
+              icon: 'fa-list-ul',
+              kind: 'button',
+              stat: false
+            },
+            Table: {
+              icon: 'fa-table',
+              kind: 'button',
+              stat: false
+            },
+            Heading: {
+              icon: 'fa-header',
+              kind: 'button',
+              stat: false
+            },
+            FontSize: {
+              kind: 'select',
+              stat: false
+            }
+          }
+        }
+      }
+    },
+    mounted() {
+      //toggleStyle
+      this.$on(`k-textEditor-pane-toggle-${this._uid}`, (styleArr) => {
+        this.resetPane();
+        // if (styleArr.length > 0) {
+        //   for (let each of styleArr) {
+        //     this.$data.itemOptions[each].stat = true;
+        //   }
+        // }
+      });
+    },
     methods: {
       PaneClick(key) {
         if(!this.$data.itemOptions[key]) return;
         this.$data.itemOptions[key].stat = !this.$data.itemOptions[key].stat;
         this.$parent.$emit(`k-textEditor-pane-${this.$parent._uid}`, {key: key, options: null});
+      },
+      resetPane() {
+        // const defaultOptions_ = JSON.parse(JSON.stringify(this.defaultOptions));
+        // console.log(defaultOptions_.Bold.stat);
+        // this.$data.itemOptions = defaultOptions_;
       }
     },
     data() {
       return {
-        itemOptions: {
-          Redo: {
-            icon: 'fa-rotate-left',
-            kind: 'button',
-            stat: false
-          },
-          Undo: {
-            icon: 'fa-rotate-right',
-            kind: 'button',
-            stat: false
-          },
-          ForeColor: {
-            icon: 'fa-font',
-            kind: 'pane',
-            stat: false
-          },
-          Bold: {
-            icon: 'fa-bold',
-            kind: 'button',
-            stat: false
-          },
-          Italic: {
-            icon: 'fa-italic',
-            kind: 'button',
-            stat: false
-          },
-          Header: {
-            icon: 'fa-header',
-            kind: 'button',
-            stat: false
-          },
-          StrikeThrough: {
-            icon: 'fa-strikethrough',
-            kind: 'button',
-            stat: false
-          },
-          Underline: {
-            icon: 'fa-underline',
-            kind: 'button',
-            stat: false
-          },
-          Subscript: {
-            icon: 'fa-subscript',
-            kind: 'button',
-            stat: false
-          },
-          Superscript: {
-            icon: 'fa-superscript',
-            kind: 'button',
-            stat: false
-          },
-          Indent: {
-            icon: 'fa-indent',
-            kind: 'button',
-            stat: false
-          },
-          Outdent: {
-            icon: 'fa-outdent',
-            kind: 'button',
-            stat: false
-          },
-          JustifyLeft: {
-            icon: 'fa-align-left',
-            kind: 'button',
-            stat: false
-          },
-          JustifyRight: {
-            icon: 'fa-align-right',
-            kind: 'button',
-            stat: false
-          },
-          JustifyCenter: {
-            icon: 'fa-align-center',
-            kind: 'button',
-            stat: false
-          },
-          JustifyFull: {
-            icon: 'fa-align-justify',
-            kind: 'button',
-            stat: false
-          },
-          Paste: {
-            icon: 'fa-paste',
-            kind: 'button',
-            stat: false
-          },
-          Copy: {
-            icon: 'fa-copy',
-            kind: 'button',
-            stat: false
-          },
-          Cut: {
-            icon: 'fa-cut',
-            kind: 'button',
-            stat: false
-          },
-          Save: {
-            icon: 'fa-save',
-            kind: 'button',
-            stat: false
-          },
-          InsertOrderedList: {
-            icon: 'fa-list-ol',
-            kind: 'button',
-            stat: false
-          },
-          InsertUnorderedList: {
-            icon: 'fa-list-ul',
-            kind: 'button',
-            stat: false
-          },
-          Table: {
-            icon: 'fa-table',
-            kind: 'button',
-            stat: false
-          },
-          Heading: {
-            icon: 'fa-header',
-            kind: 'button',
-            stat: false
-          },
-          FontSize: {
-            kind: 'select',
-            stat: false
-          }
-        },
+        itemOptions: this.defaultOptions,
         section: [
-          ['Bold', 'ForeColor', 'FontSize']
+          ['Bold', 'Italic', 'StrikeThrough', 'ForeColor', 'FontSize']
         ],
         PaneOptions: {
           ForeColor: {
