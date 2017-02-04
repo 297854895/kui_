@@ -172,9 +172,10 @@
         this.$parent.$emit(`k-textEditor-pane-${this.$parent._uid}`, {key: key, options: null});
       },
       resetPane() {
-        // const defaultOptions_ = JSON.parse(JSON.stringify(this.defaultOptions));
+        const defaultOptions_ = JSON.parse(JSON.stringify(this.defaultOptions));
         // console.log(defaultOptions_.Bold.stat);
         // this.$data.itemOptions = defaultOptions_;
+
       }
     },
     data() {
