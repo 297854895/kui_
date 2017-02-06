@@ -24,12 +24,13 @@
         styleNodeMap: {
           B: 'Bold',
           I: 'Italic',
-          STRIKE: 'StrikeThrough'
+          STRIKE: 'StrikeThrough',
+          FONT: 'ForeColor'
         },
         styleMap: {
           'font-weight: bold': 'Bold',
           'font-style: italic': 'Italic',
-          'text-decoration: line-through': 'StrikeThrough'
+          'text-decoration: line-through': 'StrikeThrough',
         },
         ifrHeight: this.height,
         EditorTemplate: `<html>
@@ -116,7 +117,7 @@
         const Node = anchorNode.parentNode.tagName === 'P' ? anchorNode : anchorNode.parentNode;
         const tagName = anchorNode.parentNode.tagName === 'P' ? 'NORMAL' : anchorNode.parentNode.tagName;
         const tagArr = [];
-        
+        if (Node.tagName === 'BODY') return;
         if (tagName === 'NORMAL') {
           this.emitStylePaneStat(tagArr);
           return;

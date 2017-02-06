@@ -1893,11 +1893,37 @@ button::-moz-focus-inner {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
+.k-textEditor-pane-bt{
+  padding:0 12px 0 0;
+}
+.k-textEditor-pane-bt-wrap{
+  padding: 1.5px 8px 1.5px 8px;
+}
+.k-textEditor-ForeColor-view{
+  height: 3px;
+}
+.k-textEditor-pane-show-bt{
+  background: #fff;
+  border: none;
+  border-left: 1px solid #ccc;
+  outline: none;
+  padding: 0px;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  top: 0px;
+  width: 12px;
+  cursor: pointer;
+}
 .k-textEditor-bt-active{
   background: #e0e0e0;
+  color: #333;
 }
-.k-textEditor-pane-bt{
-  padding: 0px;
+.k-textEditor-pane-show-bt i:first-child {
+  margin: 0px;
+}
+.k-textEditor-pane-show-bt i:last-child {
+  margin: 0px;
 }
 .k-textEditor-pane-btin{
   height: 22px;
@@ -1909,9 +1935,93 @@ button::-moz-focus-inner {
   background: #eee;
   border-color: #ccc;
 }
+.k-textEditor-pane-bt:hover{
+  background: #fff;
+}
+.k-textEditor-pane-bt-wrap:hover{
+  color: #666;
+  background: #eee;
+  border-color: #ccc;
+}
+.k-textEditor-pane-show-bt:hover{
+  color: #666;
+  background: #eee;
+  border-color: #ccc;
+}
 .k-textEditor-bt:active{
   color: #333;
   background: #e0e0e0;
+}
+.k-textEditor-pane-bt:active{
+  color: #666;
+  background: #fff;
+}
+.k-textEditor-pane-bt-wrap:active{
+  color: #333;
+  background: #e0e0e0;
+}
+.k-textEditor-pane-show-bt:active{
+  color: #333;
+  background: #e0e0e0;
+}
+.k-textEditor-pane-hideMenu{
+  border: 1px solid #ccc;
+  padding: 4px;
+  margin-top: 4px;
+  background: #fff;
+}
+.k-textEditor-ForeColor-container{
+  width: 148px;
+}
+.k-textEditor-ForeColor-title{
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+}
+.k-textEditor-ForeColor-currentColor{
+  padding: 6px 0;
+}
+.k-textEditor-ForeColor-currentColor div{
+  width: 126px;
+  height: 12px;
+  display: inline-block;
+}
+.k-textEditor-ForeColor-colorInput{
+  margin-top: 6px;
+  border-top: 1px solid #ccc;
+  padding: 8px 0;
+}
+.k-textEditor-ForeColor-colorInput input{
+  width: 126px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  padding: 3px;
+  color: #333;
+  outline: none;
+}
+.k-textEditor-ForeColor-close{
+  font-size: 12px;
+}
+.k-textEditor-ForeColor-close:hover{
+  color: #20a0ff;
+}
+.k-textEditor-ForeColor-wrap{
+  width: 14px;
+  display: inline-block;
+  vertical-align: top;
+}
+.k-textEditor-ForeColor-each{
+  position: relative;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #ddd;
+}
+.k-textEditor-ForeColor-each:hover{
+  border-color: #aaa;
+}
+.k-textEditor-ForeColor-each:active{
+  border-color: #888;
 }
 .k-textEditor-iframe{
   display: block;

@@ -1,13 +1,20 @@
 <template>
   <div class="k-textEditor-pane">
-    <k-button-group v-for="item of section">
-      <button @click="PaneClick(item_)" v-for="item_ of item" v-if="itemOptions[item_].kind === 'button'" :class="`k k-textEditor-bt k-button k-button-default k-radius k-button-size-small ${ itemOptions[item_].stat ? 'k-textEditor-bt-active' : ''}`">
+    <k-button-group v-for="item of this.sectionOptions">
+      <button @click="PaneClick(item_)" v-for="item_ of item" v-if="itemOptions[item_].kind === 'button'" :class="`k k-textEditor-bt k-button k-button-default k-radius k-button-size-small ${ sectionStatus[item_].stat ? 'k-textEditor-bt-active' : ''}`">
         <i :class="`fa ${itemOptions[item_].icon}`" style="margin: 0px;"></i>
       </button>
-      <button v-else-if="itemOptions[item_].kind === 'pane'" :class="`k k-textEditor-bt k-textEditor-pane-bt k-button k-button-default k-radius k-button-size-small ${ itemOptions[item_].stat ? 'k-textEditor-bt-active' : ''}`">
-        <span class="k-textEditor-pane-btin" style="line-height: 22px;">
+      <button v-else-if="itemOptions[item_].kind === 'pane'" :class="`k k-textEditor-bt k-textEditor-pane-bt k-button k-button-default k-radius k-button-size-small`" @click="PaneClick(item_, ForeColor)">
+        <div class="k-textEditor-pane-bt-wrap">
           <i :class="`fa ${itemOptions[item_].icon}`" style="margin: 0px;"></i>
-        </span>
+          <div class="k-textEditor-ForeColor-view" :style="`background: ${ForeColor}`"></div>
+        </div>
+        <button :class="`k k-textEditor-pane-show-bt ${sectionStatus[item_].show ? 'k-textEditor-bt-active' : ''}`" @click.stop="togglePane(item_)">
+          <i class="fa fa-angle-down"></i>
+        </button>
+        <div class="k k-absolute-menu k-textEditor-pane-hideMenu" v-if="currentShowHidePane === item_">
+          <ForeColor />
+        </div>
       </button>
       <span v-else>select</span>
     </k-button-group>
@@ -15,140 +22,125 @@
 </template>
 <script>
   import kButtonGroup from '../ButtonGroup/ButtonGroup';
+  import ForeColor from './PaneHideMenu/ForeColor';
 
   export default{
     name: 'k-textEditor-pane',
     components: {
-      'k-button-group': kButtonGroup
+      'k-button-group': kButtonGroup,
+      'ForeColor': ForeColor
     },
     props: {
+      sectionOptions: {
+        type: Array,
+        default: () => {
+          return [
+            ['Bold', 'Italic', 'StrikeThrough', 'ForeColor', 'FontSize']
+          ]
+        }
+      },
       defaultOptions: {
         type: Object,
         default: () => {
           return {
             Redo: {
               icon: 'fa-rotate-left',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Undo: {
               icon: 'fa-rotate-right',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             ForeColor: {
               icon: 'fa-font',
-              kind: 'pane',
-              stat: false
+              kind: 'pane'
             },
             Bold: {
               icon: 'fa-bold',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Italic: {
               icon: 'fa-italic',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Header: {
               icon: 'fa-header',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             StrikeThrough: {
               icon: 'fa-strikethrough',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Underline: {
               icon: 'fa-underline',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Subscript: {
               icon: 'fa-subscript',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Superscript: {
               icon: 'fa-superscript',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Indent: {
               icon: 'fa-indent',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Outdent: {
               icon: 'fa-outdent',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             JustifyLeft: {
               icon: 'fa-align-left',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             JustifyRight: {
               icon: 'fa-align-right',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             JustifyCenter: {
               icon: 'fa-align-center',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             JustifyFull: {
               icon: 'fa-align-justify',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Paste: {
               icon: 'fa-paste',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Copy: {
               icon: 'fa-copy',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Cut: {
               icon: 'fa-cut',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Save: {
               icon: 'fa-save',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             InsertOrderedList: {
               icon: 'fa-list-ol',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             InsertUnorderedList: {
               icon: 'fa-list-ul',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Table: {
               icon: 'fa-table',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             Heading: {
               icon: 'fa-header',
-              kind: 'button',
-              stat: false
+              kind: 'button'
             },
             FontSize: {
-              kind: 'select',
-              stat: false
+              kind: 'select'
             }
           }
         }
@@ -158,49 +150,59 @@
       //toggleStyle
       this.$on(`k-textEditor-pane-toggle-${this._uid}`, (styleArr) => {
         this.resetPane();
-        // if (styleArr.length > 0) {
-        //   for (let each of styleArr) {
-        //     this.$data.itemOptions[each].stat = true;
-        //   }
-        // }
+        if (!styleArr) return;
+        for (let key of styleArr) {
+          this.$data.sectionStatus[key].stat = true;
+        }
+      });
+      //closePaneHideMenu
+      this.$on(`k-textEditor-close-pane-${this._uid}`, (data) => {
+        this.$data.sectionStatus[data.key].show = false;
+        this.$data.currentShowHidePane = '';
+        if (data.key === 'ForeColor') {
+          this.$data[data.key] = data.options;
+        }
       });
     },
     methods: {
-      PaneClick(key) {
-        if(!this.$data.itemOptions[key]) return;
-        this.$data.itemOptions[key].stat = !this.$data.itemOptions[key].stat;
-        this.$parent.$emit(`k-textEditor-pane-${this.$parent._uid}`, {key: key, options: null});
+      createSectionStatus() {
+        const sectionStatus = {};
+        for (let item of this.sectionOptions) {
+          for (let item_ of item) {
+            if (this.defaultOptions[item_].kind !== 'select') {
+              sectionStatus[item_] = {
+                stat: false
+              };
+              if (this.defaultOptions[item_].kind === 'pane') {
+                sectionStatus[item_].show = false;
+              }
+            }
+          }
+        }
+        return sectionStatus;
+      },
+      PaneClick(key, options) {
+        this.$data.sectionStatus[key].stat = !this.$data.sectionStatus[key].stat;
+        this.$parent.$emit(`k-textEditor-pane-${this.$parent._uid}`, {key: key, options: options ? options : null});
       },
       resetPane() {
-        const defaultOptions_ = JSON.parse(JSON.stringify(this.defaultOptions));
-        // console.log(defaultOptions_.Bold.stat);
-        // this.$data.itemOptions = defaultOptions_;
-
+        this.$data.sectionStatus = this.createSectionStatus();
+      },
+      togglePane(key) {
+        this.$data.currentShowHidePane = '';
+        this.$data.sectionStatus[key].show = !this.$data.sectionStatus[key].show;
+        if (this.$data.sectionStatus[key].show) {
+          this.$data.currentShowHidePane = key;
+        }
       }
     },
     data() {
+      const sectionStatus = this.createSectionStatus();
       return {
         itemOptions: this.defaultOptions,
-        section: [
-          ['Bold', 'Italic', 'StrikeThrough', 'ForeColor', 'FontSize']
-        ],
-        PaneOptions: {
-          ForeColor: {
-            style: '#333',
-            viewColor: '#333',
-            show: false,
-            color: [['fff', 'f2f2f2', 'd8d8d8', 'bfbfbf', 'a5a5a5', '7f7f7f'],
-                    ['000', '7f7f7f', '595959', '3f3f3f', '262626', '0c0c0c'],
-                    ['eeece1', 'ddd9c3', 'c4bd97', '938953', '494429', '1d1b10'],
-                    ['1f497d', 'c6d9f0', '8db3e2', '548dd4', '17365d', '0f243e'],
-                    ['4f81bd', 'dbe5f1', 'b8cce4', '9fb3d7', '366092', '244061'],
-                    ['c0504d', 'f2dcdb', 'e5b9b7', 'd99694', '953734', '632423'],
-                    ['9bbb59', 'ebf1dd', 'd7e3bc', 'c3d69b', '76923c', '4f6128'],
-                    ['8064a2', 'e5e0ec', 'ccc1d9', 'b2a2c7', '5f497a', '3f3151'],
-                    ['4bacc6', 'dbeef3', 'b7dde8', '92cddc', '31859b', '205867'],
-                    ['f79646', 'fdeada', 'fbd5b5', 'fac08f', 'e36c09', '974806']]
-          }
-        },
+        sectionStatus: sectionStatus,
+        currentShowHidePane: '',
+        ForeColor: '#333'
       }
     }
   }
