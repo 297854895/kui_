@@ -52,7 +52,7 @@
         if(!cColor.match('^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$')) {
           cColor = '#333';
         }
-        this.$parent.$parent.$emit(`k-textEditor-close-pane-${this.$parent.$parent._uid}`, {key: 'ForeColor', options: cColor});
+        this.$parent.$parent.$emit(`k-textEditor-close-paneselect-${this.$parent.$parent._uid}`, {key: 'ForeColor', options: cColor});
       }
     }
   }

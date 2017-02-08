@@ -25,12 +25,13 @@
           B: 'Bold',
           I: 'Italic',
           STRIKE: 'StrikeThrough',
-          FONT: 'ForeColor'
+          FONT: 'ForeColor',
         },
         styleMap: {
           'font-weight: bold': 'Bold',
           'font-style: italic': 'Italic',
           'text-decoration: line-through': 'StrikeThrough',
+          'font-size: ': 'FontSize'
         },
         ifrHeight: this.height,
         EditorTemplate: `<html>
@@ -44,7 +45,9 @@
                         }
                       </style>
                     </head>
-                    <body style="word-break:break-all;"></body>
+                    <body style="word-break:break-all;">
+                      <p>&zwj;</p>
+                    </body>
                   </html>`
       }
     },
@@ -60,13 +63,6 @@
         win.execCommand(cmd, false, options);
         win.body.focus();
       },
-      createElement(Tag, innerHTML) {
-        const Ele = document.createElement(Tag);
-        if (innerHTML) {
-          Ele.innerHTML = innerHTML;
-        }
-        return Ele;
-      },
       initEditor() {
         const ifr = this.$refs.textEditor;
         const doc = ifr.contentDocument || ifr.contentWindow.document;
@@ -75,11 +71,8 @@
         doc.close();
         doc.designMode = "on";
         doc.contentEditable = true;
-        doc.body.appendChild(this.createElement('p', '<br>'));
         doc.body.focus();
         doc.body.onclick = this.currentStyle;
-        // doc.body.onselect = this.currentStyle;
-        // doc.onkeydown = this.insertP;
       },
       innerStyle(style, tagArr) {
         const curStyle = [];
@@ -89,7 +82,13 @@
         for (let key in this.$data.styleMap) {
           if (styleArrLength_ === styleArrLength) break;
           if (style.indexOf(key) > -1) {
-            tagArr.push(this.$data.styleMap[key]);
+            if (this.$data.styleMap[key] !== 'FontSize') {
+              tagArr.push(this.$data.styleMap[key]);
+            } else {
+              let f_size = style.substring(style.indexOf('font-size:') + 9);
+              f_size = f_size.substring(0, f_size.indexOf(';'));
+              tagArr.push(this.$data.styleMap[key] + f_size);
+            }
             styleArrLength_ ++;
           }
         }
@@ -99,15 +98,18 @@
       },
       recursionNode(node, tagArr) {
         const tagName = node.tagName;
-        if (node.style.cssText) {
+        const pNode = node.parentNode;
+        if (node.style && node.style.cssText) {
           this.innerStyle(node.style.cssText, tagArr);
         }
-        tagArr.unshift(this.$data.styleNodeMap[tagName]);
-        if (node.parentNode.tagName === 'P') {
+        if (tagName !== 'SPAN') {
+          tagArr.unshift(this.$data.styleNodeMap[tagName]);
+        }
+        if (pNode.tagName === 'P') {
           this.emitStylePaneStat(tagArr);
           return;
         }
-        this.recursionNode(node.parentNode.parentNode.lastChild, tagArr);
+        this.recursionNode(pNode.parentNode.children[pNode.parentNode.children.length - 1], tagArr);
       },
       currentStyle() {
         const doc = this.$refs.textEditor.contentDocument || this.$refs.textEditor.contentWindow.document;
