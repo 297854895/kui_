@@ -31,7 +31,7 @@
           'font-weight: bold': 'Bold',
           'font-style: italic': 'Italic',
           'text-decoration: line-through': 'StrikeThrough',
-          'font-size: ': 'FontSize'
+          'font-size:': 'FontSize'
         },
         ifrHeight: this.height,
         EditorTemplate: `<html>
@@ -46,7 +46,7 @@
                       </style>
                     </head>
                     <body style="word-break:break-all;">
-                      <p>&zwj;</p>
+                      <p>&zwnj;</p>
                     </body>
                   </html>`
       }
@@ -59,7 +59,7 @@
     },
     methods: {
       emit(cmd, options) {
-        var win = this.$refs.textEditor.contentDocument || this.$refs.textEditor.contentWindow.document;
+        const win = this.$refs.textEditor.contentDocument || this.$refs.textEditor.contentWindow.document;
         win.execCommand(cmd, false, options);
         win.body.focus();
       },

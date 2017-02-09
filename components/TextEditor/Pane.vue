@@ -157,12 +157,19 @@
     mounted() {
       //toggleStyle
       this.$on(`k-textEditor-pane-toggle-${this._uid}`, (styleArr) => {
-        console.log(styleArr);
         this.resetPane();
-        if (!styleArr) return;
+        if (!styleArr) {
+          this.$data.style.FontSize = '14px';
+          return;
+        }
+        let sizeFlag;
         for (let key of styleArr) {
           if (this.$data.sectionStatus.hasOwnProperty(key)) {
             this.$data.sectionStatus[key].stat = true;
+          } else if (!sizeFlag && key.indexOf('FontSize:') > -1) {
+            sizeFlag = true;
+            const fSize = key.substring(10);
+            this.$data.style.FontSize = fSize;
           }
         }
       });
@@ -213,23 +220,34 @@
         }
       },
       setFontSize(fontSize) {
-          console.log('setFontSize', fontSize);
+          // console.log('setFontSize', fontSize);
           const doc = this.$parent.$refs.textEditor.contentDocument || this.$parent.$refs.textEditor.contentWindow.document;
           const selection = doc.getSelection();
           const selectionText = selection.toString();
           const anchorNode = selection.anchorNode;
-          console.log(selection.getRangeAt(0));
-          if (!selectionText) {
+          if (selection.isCollapsed) {
             const span = doc.createElement('span');
-            span.innerHTML = '&zwj;';
+            span.innerHTML = '&zwnj;';
             span.style.fontSize = fontSize;
-            if (anchorNode.tagName === 'P') {
-              anchorNode.firstChild = span;
+            if (anchorNode.parentNode.tagName === 'P' && anchorNode.parentNode.innerHTML.length === 1) {
+              anchorNode.parentNode.innerHTML = `<span style="font-size: ${fontSize}">&zwnj;</span>`;
             } else {
+              // console.log(typeof anchorNode.parentNode.innerHTML.substring(0, 1));
+              if (anchorNode.parentNode.parentNode.tagName === 'P') {
+                anchorNode.parentNode.innerHTML = anchorNode.parentNode.innerHTML.substring(0, 1) + anchorNode.parentNode.innerHTML.substring(2);
+              } else {
+                anchorNode.parentNode.innerHTML = anchorNode.parentNode.innerHTML.substring(1);
+              }
               anchorNode.parentNode.appendChild(span);
+              selection.extend(anchorNode.parentNode, 2);
+              selection.collapseToEnd();
             }
+            doc.body.focus();
             return;
           }
+          const lastStr = selection.focusNode.data.substring(0, selection.focusOffset);
+          const firstStr = selection.anchorNode.data.substring(selection.anchorOffset);
+          console.log('select text', selectionText, selection.getRangeAt(0), selection);
       }
     },
     data() {
