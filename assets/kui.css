@@ -1161,6 +1161,11 @@ button::-moz-focus-inner {
   outline: none;
   color: #888;
   padding: 0px 8px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .k-input-default{
   border: 1px solid #ccc;

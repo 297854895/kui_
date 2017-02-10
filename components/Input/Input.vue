@@ -10,7 +10,7 @@
         <li v-for="each in selectBefore" @click="selectIt(each, 'selectBefore_')">{{each.text}}</li>
       </ul>
     </span>
-    <input :type="type" :value="value" :placeholder="placeholder" @change="valueChange" @enter="valueChange" ref="input"/>
+    <input :style="`width: ${this.width}`" :type="type" :value="value" :placeholder="placeholder" @change="valueChange" @enter="valueChange" ref="input"/>
     <span v-if="iconAfter || textAfter" :class="`k k-input-btn ${typeof(btnCallBack.after) === 'function' ? 'k-input-btn-click' : ''}`" @click="btnCallBack.after && typeof(btnCallBack.after) === 'function' ? afterClick() : ''">
       <i :class="iconAfter" v-if="iconAfter"></i>
       {{textAfter ? textAfter : ''}}
