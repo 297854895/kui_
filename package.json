@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/297854895/kui#readme",
   "dependencies": {
+    "highlightjs": "^9.8.0",
     "moment": "^2.17.1"
-  }
+  },
 }
