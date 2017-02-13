@@ -7,6 +7,46 @@
   export default {
     name: 'k-button',
     props: ['type', 'size', 'radius', 'width', 'status', 'iconBefore', 'iconAfter', 'callBack', 'set'],
+    // props: {
+    //   type: {
+    //     type: String,
+    //     default: 'default'
+    //   },
+    //   size: {
+    //     type: String,
+    //     default: 'normal'
+    //   },
+    //   radius: {
+    //     type: String,
+    //     default: 'true'
+    //   },
+    //   width: {
+    //     type: String,
+    //     default: ''
+    //   },
+    //   status: {
+    //     type: String,
+    //     default: 'enable'
+    //   },
+    //   iconBefore: {
+    //     type: 'String',
+    //     default: ''
+    //   },
+    //   iconAfter: {
+    //     type: 'String',
+    //     default: ''
+    //   },
+    //   callBack: {
+    //     type: Function,
+    //     default: null
+    //   },
+    //   set: {
+    //     type: Object,
+    //     default: function() {
+    //       return {}
+    //     }
+    //   }
+    // },
     methods: {
       _clickCallBack() {
         if (this.status === 'disable') return;
@@ -22,7 +62,7 @@
     },
     data() {
       return {
-        _class: `k-button-${this.type ? this.type : (this.set ? (this.set.type ? this.set.type : 'default') : 'default')} k-button-size-${this.size ? this.size : (this.set ? (this.set.size ? this.set.size : 'normal') : 'normal')} ${this.radius === 'no' ? '' : (this.set ? (this.set.radius === 'no' ? '' : 'k-radius') : 'k-radius')} ${this.status === 'disable' ? 'k-button-disable' : (this.set ? (this.set.status === 'disable' ? 'k-button-disable' : '') : '')}`,
+        _class: `k-button-${this.type ? this.type : (this.set ? (this.set.type ? this.set.type : 'default') : 'default')} k-button-size-${this.size ? this.size : (this.set ? (this.set.size ? this.set.size : 'normal') : 'normal')} ${this.radius === 'false' ? '' : (this.set ? (this.set.radius === 'false' ? '' : 'k-radius') : 'k-radius')} ${this.status === 'disable' ? 'k-button-disable' : (this.set ? (this.set.status === 'disable' ? 'k-button-disable' : '') : '')}`,
       }
     }
   }
