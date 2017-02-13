@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import kuiCss from './assets/kui.css';
 import fontAwesome from './assets/font-awesome.min.css';
+import AtomStyle from 'highlight.js/styles/github-gist.css';
 
 import Alert from './components/Alert/Alert';
 import Animate from './components/Animate/Animate';
