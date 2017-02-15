@@ -1,11 +1,16 @@
 <template>
-  <div :class="`k k-button-group ${radius === 'no' ? '' : 'k-radius'} ${type ? 'k-button-group-' + type : 'k-button-group-default'}`">
+  <div :class="`k k-button-group ${radius === 'false' ? '' : 'k-radius'}`">
     <slot></slot>
   </div>
 </template>
 <script>
   export default {
     name: 'k-button-group',
-    props: ['radius', 'type', 'size']
+    props: {
+      radius: {
+        type: String,
+        default: 'true'
+      }
+    }
   }
 </script>
