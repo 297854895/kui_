@@ -46,6 +46,10 @@
         default: () => {
           return [];
         }
+      },
+      scrollDOM: {
+        type: String,
+        default: ''
       }
     },
     data() {
@@ -67,10 +71,37 @@
       }
     },
     mounted() {
+      if (this.position === 'normal' ) return;
       const scrollArr = this.scrollChange;
       if (scrollArr.length > 0) {
-        window.onscroll = () =>{
-          const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        let SCDOM;
+        let bindFlag;
+        if (!this.scrollDOM) {
+          SCDOM = window;
+          bindFlag = true;
+        }else {
+          const getTimer = setInterval(() => {
+            if (SCDOM) {
+              this.bindEvent(scrollArr, SCDOM, 'dom');
+              clearInterval(getTimer);
+              return;
+            }
+            SCDOM = document.querySelectorAll(this.scrollDOM)[0];
+          }, 100);
+        }
+        if (!bindFlag) return;
+        this.bindEvent(scrollArr, SCDOM);
+      }
+    },
+    methods: {
+      bindEvent(scrollArr, dom, flag) {
+        dom.onscroll = () => {
+          let scrollTop;
+          if (flag === 'window') {
+            scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+          } else {
+            scrollTop = dom.scrollTop || dom.pageYOffset;
+          }
           scrollArr.forEach((each) => {
             if (scrollTop >= each.scrollTop) {
               this.$data._type = each.type ? each.type : this.$data._defaultStyle._type;
@@ -88,9 +119,7 @@
             this.$data._backgroundColor = this.$data._defaultStyle._backgroundColor;
           }
         }
-      }
-    },
-    methods: {
+      },
       navClick(evt) {
         if (evt.target.nodeName !== 'LI' && evt.target.parentNode.nodeName !== 'UL') return;
         const class_ = evt.target.className;

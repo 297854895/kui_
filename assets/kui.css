@@ -912,6 +912,7 @@ button::-moz-focus-inner {
   text-align: left;
   padding: 12px 8px;
   color: #fff;
+  min-width: 40px;
 }
 .k td {
   text-align: left;

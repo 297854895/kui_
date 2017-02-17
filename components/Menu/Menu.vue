@@ -1,16 +1,16 @@
 <template>
   <ul :class="`k k-menu k-menu-${this.direction === 'x' || this.direction === 'y' ? this.direction : 'x'} k-menu-default`" :style="this.direction === 'y' ? 'border-radius:4px' : ''">
-    <li @mouseleave="direction === 'y' ? '' : hideMenu(each.key)" @mouseenter="direction === 'y' ? '' : showMenu(each.key)" @click="each.key === current_ ? (direction === 'y' ? toggleMenu(each.key) : '') : toggleMenu(each.key)" :class="`k-menu-each ${current_ === each.key ? 'k-menu-each-active' : ''} ${direction === 'y' ? (border === 'none' ? 'k-menu-menu-border-none' : '') : ''}`" v-for="each in (this.menu ? this.menu : [])">
+    <li @mouseleave="direction === 'y' ? '' : hideMenu(each.key)" @mouseenter="direction === 'y' ? '' : showMenu(each.key)" @click="each.key === current_ ? (direction === 'y' ? toggleMenu(each.key) : '') : toggleMenu(each.key)" :class="`k-menu-each ${current_ === each.key ? 'k-menu-each-active' : ''} ${direction === 'y' ? (border === 'false' ? 'k-menu-menu-border-none' : '') : ''}`" v-for="each in (this.menu ? this.menu : [])">
       <p class="k-menu-each-wrap">
         <i v-if="each.icon" :class="`k-menu-icon ${each.icon}`"></i>
-        {{each.title}}
+        {{each.label}}
         <i v-if="each.menu" class="k-menu-icon-arr fa fa-caret-down"></i>
       </p>
       <transition name="k-menu-menu-animate">
         <ul v-if="each.menu" v-show="menu_Status[each.key].status" class="k-menu-menu">
-          <li @click.stop="menuMenuClick(each.key, each_.key)" class="k-menu-menu-each" v-for="each_ in each.menu" :style="each_.icon ? (direction === 'y' ? '' : 'padding-left:38px') : ''">
+          <li @click="menuMenuClick(each.key, each_.key)" class="k-menu-menu-each" v-for="each_ in each.menu" :style="each_.icon ? (direction === 'y' ? '' : 'padding-left:38px') : ''">
             <i v-if="each_.icon" :class="`k-menu-icon ${each_.icon}`"></i>
-            <span>{{each_.title}}</span>
+            <span>{{each_.label}}</span>
           </li>
         </ul>
       </transition>
@@ -20,7 +20,26 @@
 <script>
   export default {
     name: 'k-menu',
-    props: ['direction', 'menu', 'current', 'border'],
+    props: {
+      direction: {
+        type: String,
+        default: 'x'
+      },
+      menu: {
+        type: Array,
+        default: () => {
+          return [];
+        }
+      },
+      current: {
+        type: String,
+        default: ''
+      },
+      border: {
+        type: String,
+        default: 'true'
+      }
+    },
     data () {
       let menu_Status = {};
       this.menu.forEach((each) => {

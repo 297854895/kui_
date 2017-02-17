@@ -1,7 +1,7 @@
 <template>
-  <div class="k k-breadcrumb">
-    <span v-for="(each, idx) in breadcrumbData">
-      <a :href="idx === (breadcrumbData.length - 1) ? 'javascript:;' : (each.href ? each.href : 'javascript:;')">{{each.label ? each.label : 'undefined'}}</a>
+  <div class="k k-breadcrumb" v-if="this.$data.breadcrumbData.length > 0">
+    <span v-for="(item, idx) in breadcrumbData">
+      <a @click="itemClick(item.callBack ? item.callBack : '', {label: item.label ? item.label : 'undefiend', key: item.key ? item.key : ''})" :href="idx === (breadcrumbData.length - 1) ? 'javascript:;' : (item.href ? item.href : 'javascript:;')">{{item.label ? item.label : 'undefined'}}</a>
       <b></b>
     </span>
   </div>
@@ -9,10 +9,24 @@
 <script>
   export default {
     name: 'k-breadcrumb',
-    props: ['set'],
+    props: {
+      options: {
+        type: Array,
+        default: () => {
+          return [];
+        }
+      }
+    },
     data() {
       return {
-        breadcrumbData: this.set ? (this.set.data ? this.set.data : []) : []
+        breadcrumbData: this.options
+      }
+    },
+    methods: {
+      itemClick(fn, item) {
+        if (typeof fn === 'function') {
+          fn(item);
+        }
       }
     }
   }
