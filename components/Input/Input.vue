@@ -1,5 +1,5 @@
 <template>
-  <span :class="`k k-input k-input-default ${radius === 'yes' ? 'k-radius' : '' }`" :style="`${style}`">
+  <span :class="`k k-input k-input-default ${radius === 'true' ? 'k-radius' : '' }`" :style="`${style}`">
     <span v-if="iconBefore || textBefore" :class="`k k-input-btn ${typeof(btnCallBack.before) === 'function' ? 'k-input-btn-click' : ''}`" @click="btnCallBack.before && typeof(btnCallBack.before) === 'function' ? beforeClick() : ''">
       <i :class="iconBefore" v-if="iconBefore"></i>
       {{textBefore ? textBefore : ''}}
@@ -10,7 +10,7 @@
         <li v-for="each in selectBefore" @click="selectIt(each, 'selectBefore_')">{{each.text}}</li>
       </ul>
     </span>
-    <input :style="`width: ${this.width}`" :type="type" :value="value" :placeholder="placeholder" @change="valueChange" @enter="valueChange" ref="input"/>
+    <input :id="id" :style="`width: ${this.width}`" :type="type" :value="value" :placeholder="placeholder" @change="valueChange" @enter="valueChange" ref="input"/>
     <span v-if="iconAfter || textAfter" :class="`k k-input-btn ${typeof(btnCallBack.after) === 'function' ? 'k-input-btn-click' : ''}`" @click="btnCallBack.after && typeof(btnCallBack.after) === 'function' ? afterClick() : ''">
       <i :class="iconAfter" v-if="iconAfter"></i>
       {{textAfter ? textAfter : ''}}
@@ -27,6 +27,10 @@
   export default{
     name: 'k-input',
     props: {
+      id: {
+        type: String,
+        default: ''
+      },
       type: {
         type: String,
         default: 'text'
@@ -49,7 +53,7 @@
       },
       radius: {
         type: String,
-        default: 'yes'
+        default: 'true'
       },
       iconBefore: {
         type: String,
@@ -75,7 +79,7 @@
         type: Array,
         default: () => {return []}
       },
-      onchange: {
+      onChange: {
         type: Function
       },
       style: {
@@ -121,8 +125,8 @@
         }
       },
       valueChange () {
-        if(!this.onchange || typeof(this.onchange) !== 'function') return;
-        this.onchange(`${this.$data.selectBefore_ ? this.$data.selectBefore_.current.text : (this.textBefore ? this.textBefore : '')}${this.$refs.input.value}${this.$data.selectAfter_ ? this.$data.selectAfter_.current.text : (this.textAfter ? this.texttextAfter : '')}`);
+        if(!this.onChange || typeof(this.onChange) !== 'function') return;
+        this.onChange(`${this.$data.selectBefore_ ? this.$data.selectBefore_.current.text : (this.textBefore ? this.textBefore : '')}${this.$refs.input.value}${this.$data.selectAfter_ ? this.$data.selectAfter_.current.text : (this.textAfter ? this.texttextAfter : '')}`);
       }
     }
   }
