@@ -1145,7 +1145,7 @@ button::-moz-focus-inner {
 /*input*/
 .k-input{
   color: #666;
-  display: table;
+  display: inline-table;
   position: relative;
   background: #fff;
   line-height: 26px;
@@ -1314,6 +1314,7 @@ button::-moz-focus-inner {
   position: relative;
   transition: border-color .2s ease;
   cursor: pointer;
+  vertical-align: top;
 }
 .k-select p{
   padding: 4.5px 12px;
