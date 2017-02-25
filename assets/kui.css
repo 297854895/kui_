@@ -1358,6 +1358,20 @@ button::-moz-focus-inner {
   color: #666;
   position: relative;
 }
+.k-select-checkbox{
+  display: inline-block;
+  vertical-align: top;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  margin-top: 1px;
+  border-radius: 2px;
+  line-height: 0px;
+}
+.k-select-checkbox i{
+  font-size: 10px;
+}
 .k-select-active{
   font-weight: bold;
 }
