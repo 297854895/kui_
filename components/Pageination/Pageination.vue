@@ -1,5 +1,5 @@
 <template>
-  <ul :class="this._thisClass" v-if="this.pageSet.total && this.pageSet.total > 0 && this.pageSet.current">
+  <ul class="k k-page-wrap k-page-wrap-default" v-if="this.pageSet.total && this.pageSet.total > 0 && this.pageSet.current">
     <li class="k k-page-each">
       <div v-if="current === 1">
         <a :class="`k k-page-each-a k-page-each-a-disable ${this.$data.size_}`">&nbsp;<i class="fa fa-angle-left"></i>&nbsp;</a>
@@ -7,14 +7,16 @@
       <div v-else>
         <a @click.stop="back" :class="`k k-page-each-a k-page-each-a-enable ${this.$data.size_}`">&nbsp;<i class="fa fa-angle-left"></i>&nbsp;</a>
       </div>
-    </li><li v-for="_page in show" class="k-page-each">
+    </li>
+    <li v-for="_page in show" class="k-page-each">
       <div v-if="_page.className.indexOf('active') > -1">
         <a :class="_page.className">{{_page.num}}</a>
       </div>
       <div v-else>
         <a :class="_page.className" @click="turn(_page.num)">{{_page.num}}</a>
       <div>
-    </li><li class="k k-page-each">
+    </li>
+    <li class="k k-page-each">
       <div v-if="current === total">
         <a :class="`k k-page-each-a k-page-each-a-disable ${this.$data.size_}`">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</a>
       </div>
@@ -42,12 +44,20 @@
         default: 'normal'
       }
     },
+    created () {
+      // this.$forceUpdate();
+      this.computedPage('first');
+    },
+    updated() {
+      this.current = this.pageSet.current;
+      this.total = this.pageSet.total;
+      this.computedPage('first');
+    },
     data() {
       return {
-        _thisClass: 'k k-page-wrap',
         size_: this.size === 'small' ? 'k k-page-size-small' : 'k k-page-size-normal',
-        current: 0,
-        total: 0,
+        current: this.pageSet.current || 1,
+        total: this.pageSet.total || 1,
         show: []
       }
     },
@@ -71,7 +81,7 @@
         this.current = idx;
         this.computedPage();
       },
-      computedPage () {
+      computedPage (times) {
         this.show = [];
         this.show.push({
           num : 1,
@@ -150,26 +160,10 @@
             });
           }
         }
-        if (this.pageSet.callBack) {
+        if (this.pageSet.callBack && !times) {
           this.pageSet.callBack(this.current);
         }
       }
-    },
-    created () {
-      switch (this.pageSet.type) {
-        case 'primary':
-          this._thisClass += ' k-page-wrap-primary';
-          break;
-        case 'black':
-          this._thisClass += ' k-page-wrap-black';
-          break;
-        default:
-          this._thisClass = 'k k-page-wrap k-page-wrap-default';
-      }
-      this.current = this.pageSet.current;
-      this.total = this.pageSet.total;
-      this.computedPage();
-      this.$forceUpdate();
     }
   }
 </script>

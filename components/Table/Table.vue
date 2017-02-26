@@ -65,6 +65,7 @@
         this.$forceUpdate();
       });
       setTimeout(()=>{
+        if (!this.$refs.table) return;
         const sortArr = this.$refs.table.querySelectorAll('.k-table-sort div');
         if (sortArr.length === 0 && !sortArr) return;
         for (let each of sortArr) {
